@@ -47,16 +47,20 @@
   </head>
 
   <body>
-    <button type="submit" id="noAuth" onclick="window.location.href='/noAuth'">
+    <button
+      type="submit"
+      id="noAuth"
+      onclick="window.location.href='/auth/noAuth'"
+    >
       No Auth
     </button>
-    <button id="basicAuth" onclick="window.location.href='/basicAuth'">
+    <button id="basicAuth" onclick="window.location.href='/auth/basicAuth'">
       Basic Auth
     </button>
-    <button id="apiKey" onclick="window.location.href='/apiKey'">
+    <button id="apiKey" onclick="window.location.href='/auth/apiKey'">
       API Key
     </button>
-    <button id="bearerToken" onclick="window.location.href='/bearerToken'">
+    <button id="bearerToken" onclick="window.location.href='/auth/bearerToken'">
       Bearer Token
     </button>
     <!-- <button id="bearerToken" onclick="window.location.href='/mySecrets'">
