@@ -6,22 +6,8 @@ import crudRoutes from "./routes/crud.js";
 
 const app = express();
 const port = 8000;
-const API_URL = "https://secrets-api.appbrewery.com";
-
-//auth
-const yourUsername = "OnceIcecreamOnly";
-const yourPassword = "asljdfsalnkfjdsakjs";
-const yourAPIKey = "bc674c38-ffb2-4eb4-b4eb-e2ef9ac50056";
-const yourBearerToken = "0b28fec1-e3f7-499a-bf7b-76760097e957";
-const config = {
-  headers: {
-    Authorization: `Bearer ${yourBearerToken}`,
-  },
-};
 
 //middleware
-app.use("/auth", authRoutes); // Use authRoutes for '/'
-app.use("/crud", crudRoutes); // Use crudRoutes for '/crud'
 morgan.token("customDate", () => {
   const currentDate = new Date().toISOString();
   return currentDate;
@@ -33,139 +19,16 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+// routing
+app.use("/auth", authRoutes); // Use authRoutes for '/'
+app.use("/crud", crudRoutes); // Use crudRoutes for '/crud'
 
-/*
-// app.get("/crud", (req, res) => {
-//   res.render("crudIndex.ejs", { content: "Waiting for data..." });
-// });
+//base route (empty)
+app.get("/", (req, res) => {
+  res.redirect("/crud");
+});
 
-// app.post("/get-secret", async (req, res) => {
-//   const searchId = req.body.id;
-//   try {
-//     const result = await axios.get(API_URL + "/secrets/" + searchId, config);
-//     res.render("crudIndex.ejs", { content: JSON.stringify(result.data) });
-//   } catch (error) {
-//     res.render("crudIndex.ejs", {
-//       content: error.message,
-//     });
-//   }
-// });
-
-// app.post("/post-secret", async (req, res) => {
-//   try {
-//     const response = await axios.post(
-//       API_URL + "/secrets",
-//       {
-//         secret: req.body.secret,
-//         score: req.body.score,
-//       },
-//       config
-//     );
-//     res.render("crudIndex.ejs", { content: "Waiting for data..." });
-//   } catch (error) {
-//     console.log("error: ", error.message);
-//     res.render("crudIndex.ejs", { error: error.message });
-//   }
-// });
-
-//base route
-// app.get("/", (req, res) => {
-//   res.render("authIndex.ejs", { content: "API Response." });
-// });
-
-// get random secret without authentication.
-// app.get("/noAuth", async (req, res) => {
-//   try {
-//     const response = await axios.get(API_URL + "/random");
-//     //result is an array of secret objects
-//     const result = [response.data];
-//     console.log(result);
-//     console.log("type: ", typeof result);
-//     res.render("authIndex.ejs", { content: result });
-//   } catch (error) {
-//     console.error("Failed to make request:", error.message);
-//     res.render("authIndex.ejs", {
-//       error: error.message,
-//     });
-//   }
-// });
-
-//route to get first page of secrets. basic username:password authentication
-// app.get("/basicAuth", async (req, res) => {
-//   try {
-//     const response = await axios.get(API_URL + "/all?page=1", {
-//       auth: {
-//         username: yourUsername,
-//         password: yourPassword,
-//       },
-//     });
-//     // response is already in list format. traversed in authIndex view
-//     const result = response.data;
-//     console.log(result[0]);
-//     console.log(typeof result);
-//     return res.render("authIndex.ejs", { content: result });
-//   } catch (error) {
-//     console.error("Failed to make request:", error.message);
-//     res.render("authIndex.ejs", {
-//       error: error.message,
-//     });
-//     console.log(0);
-//   } finally {
-//     console.log(2);
-//   }
-// });
-
-//route to get secrets filtered by minimum embarassment score. apiKey authentication
-// app.get("/apiKey", async (req, res) => {
-//   try {
-//     const custom = await axios.get(API_URL + `/filter?`, {
-//       params: {
-//         score: 5,
-//         apiKey: yourAPIKey,
-//       },
-//     });
-//     res.render("authIndex.ejs", { content: custom.data });
-//   } catch (error) {
-//     console.log("error found: ", error.message);
-//     res.render("authIndex.ejs", { error: error.message });
-//   }
-// });
-
-//route to get secret by ID. token authorization.
-// app.get("/bearerToken", async (req, res) => {
-//   try {
-//     const response = await axios.get(API_URL + "/secrets/42", {
-//       headers: {
-//         Authorization: `Bearer ${yourBearerToken}`,
-//       },
-//     });
-//     console.log(response);
-//     console.log(response.data);
-//     res.render("authIndex.ejs", { content: [response.data] });
-//   } catch (err) {
-//     console.log("error: ", err.message);
-//     res.render("authIndex.ejs", { error: err.message });
-//   }
-// });
-
-//route to get random secret from api. renders index.ejs
-// app.get("/get-random", async (req, res) => {
-//   try {
-//     const response = await axios.get(API_URL + "/random/");
-//     console.log(response.data);
-
-//     res.render("index.ejs", {
-//       secret: response.data.secret,
-//       user: response.data.username,
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.render("index.ejs", { secret: error.message, user: yourUsername });
-//   }
-// });
-*/
-
-//server on port 3000
+//server on port 8000
 app.listen(port, () => {
   console.log(`Started running port at`, port);
 });

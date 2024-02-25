@@ -1,6 +1,5 @@
 import express from "express";
 import axios from "axios";
-import bodyParser from "body-parser";
 
 const API_URL = "https://secrets-api.appbrewery.com";
 const router = express.Router();
@@ -10,9 +9,6 @@ const config = {
     Authorization: `Bearer ${yourBearerToken}`,
   },
 };
-
-//middleware
-router.use(bodyParser.urlencoded({ extended: true }));
 
 //routes
 router.get("/", (req, res) => {
